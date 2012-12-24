@@ -7,9 +7,9 @@ var ctx = canvas.getContext('2d'),
     CANVAS_HEIGHT = canvas.height;
 
 
-function random(n) {
-    return Math.floor(Math.random() * (n+1));
-}
+//function random(n) {
+//    return Math.floor(Math.random() * (n+1));
+//}
 
 function Playfield() {
     this.worldX = 0;
@@ -53,71 +53,71 @@ function Playfield() {
     };
 }
 
-SpriteManager = {
-    sprites: [],
-    add: function(s) {
-        this.sprites.push(s);
-    },
-    run: function(ctx) {
-        for (var i=0, len=this.sprites.length; i<len; i++) {
-            var s = this.sprites[i];
-            s.animate();
-            s.move();
-            s.beforeDraw();
-            s.draw(ctx);
-            s.afterDraw();
-        }
-    }
-
-};
-
-function Sprite() {
-    this.x = 0;
-    this.y = 0;
-    this.vx = 0;
-    this.vy = 0;
-    this.image = null;
-    this.animStep = 0;
-    this.animRate = 1;
-    this.animTimer = 1;
-    this.animation = null;
-    this.beforeDraw = function() {};
-    this.afterDraw = function() {};
-    SpriteManager.add(this);
-}
-Sprite.prototype.move = function() {
-    this.x += this.vx;
-    this.y += this.vy;
-};
-Sprite.prototype.animate = function() {
-    if (this.animation) {
-        this.animTimer--;
-        if (this.animTimer <= 0) {
-            this.animStep++;
-            this.animStep %= this.animStepMax;
-            this.animTimer = this.animRate;
-        }
-        this.image = this.animation[this.animStep];
-    }
-};
-Sprite.prototype.draw = function(ctx) {
-    ctx.drawImage(this.image, this.x, this.y);
-};
-Sprite.prototype.setVelocity = function(vx, vy) {
-    if (vx !== undefined) {
-        this.vx = vx;
-    }
-    if (vy !== undefined) {
-        this.vy = vy;
-    }
-};
-Sprite.prototype.startAnimation = function(animation, rate) {
-    this.animTimer = rate !== undefined ? rate : 1;
-    console.log(' animTimer = ' + this.animTimer);
-    this.animation = animation;
-    this.animStep = 0;
-    this.animStepMax = animation.length - 1;
-};
+//SpriteManager = {
+//    sprites: [],
+//    add: function(s) {
+//        this.sprites.push(s);
+//    },
+//    run: function(ctx) {
+//        for (var i=0, len=this.sprites.length; i<len; i++) {
+//            var s = this.sprites[i];
+//            s.animate();
+//            s.move();
+//            s.beforeDraw();
+//            s.draw(ctx);
+//            s.afterDraw();
+//        }
+//    }
+//
+//};
+//
+//function Sprite() {
+//    this.x = 0;
+//    this.y = 0;
+//    this.vx = 0;
+//    this.vy = 0;
+//    this.image = null;
+//    this.animStep = 0;
+//    this.animRate = 1;
+//    this.animTimer = 1;
+//    this.animation = null;
+//    this.beforeDraw = function() {};
+//    this.afterDraw = function() {};
+//    SpriteManager.add(this);
+//}
+//Sprite.prototype.move = function() {
+//    this.x += this.vx;
+//    this.y += this.vy;
+//};
+//Sprite.prototype.animate = function() {
+//    if (this.animation) {
+//        this.animTimer--;
+//        if (this.animTimer <= 0) {
+//            this.animStep++;
+//            this.animStep %= this.animStepMax;
+//            this.animTimer = this.animRate;
+//        }
+//        this.image = this.animation[this.animStep];
+//    }
+//};
+//Sprite.prototype.draw = function(ctx) {
+//    ctx.drawImage(this.image, this.x, this.y);
+//};
+//Sprite.prototype.setVelocity = function(vx, vy) {
+//    if (vx !== undefined) {
+//        this.vx = vx;
+//    }
+//    if (vy !== undefined) {
+//        this.vy = vy;
+//    }
+//};
+//Sprite.prototype.startAnimation = function(animation, rate) {
+//    this.animTimer = rate !== undefined ? rate : 1;
+//    console.log(' animTimer = ' + this.animTimer);
+//    this.animation = animation;
+//    this.animStep = 0;
+//    this.animStepMax = animation.length - 1;
+//};
 
 (function() {
 
@@ -178,12 +178,13 @@ Sprite.prototype.startAnimation = function(animation, rate) {
                 this.vy = -this.vy;
             }
         }
-        var sprite = new Sprite();
+        var sprite = SpriteManager.allocSprite();
         sprite.x = 0;
         sprite.y = 0;
         sprite.setVelocity(4, 4.5);
         sprite.startAnimation(earthAnimation);
         sprite.beforeDraw = beforeDraw;
+        SpriteManager.addSprite(sprite);
     }
 
     var playfield = new Playfield();
