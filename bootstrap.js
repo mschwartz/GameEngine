@@ -1,0 +1,2 @@
+Config.documentRoot = 'docroot';
+
