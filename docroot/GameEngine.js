@@ -205,10 +205,10 @@ Sprite.prototype.startAnimation = function(animation, rate) {
         ctx.fillRect(0,0, CANVAS_WIDTH,CANVAS_HEIGHT);
         playfield.draw(ctx);
         SpriteManager.run(ctx);
-        debug.innerHTML = 'worldX = ' + playfield.worldX + ',' + playfield.worldY;
+        debug.innerHTML = playfield.worldX + ',' + playfield.worldY + ' ' + playfield.vx + ',' + playfield.vy;
     }
 
-    document.onkeyup = function(e) {
+    document.onkeydown = function(e) {
         console.log(e.keyCode);
         switch (e.keyCode) {
             case 32:
