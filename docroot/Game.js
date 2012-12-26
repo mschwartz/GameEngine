@@ -18,7 +18,7 @@ function Playfield() {
     this.vy = 0;
     var planes = [],
         starsPerPlane = parseInt(CANVAS_WIDTH * CANVAS_HEIGHT / 1000, 10),
-        planeColors = [ '#7f7f7f', '#bfbfbf', '#ffffff' ];
+        planeColors = [ '#ffffff', '#bfbfbf', '#7f7f7f' ];
 
     for (var p=0; p<3; p++) {
         var plane = [];
@@ -33,7 +33,7 @@ function Playfield() {
         for (var p=0; p<3; p++) {
             ctx.fillStyle = planeColors[p];
             var plane = planes[p];
-            var wx = this.worldX >> p,
+            var wx = this.worldX >> (p+1),
                 mx = (wx >= 0) ? CANVAS_WIDTH : -CANVAS_WIDTH,
                 wy = this.worldY >> p,
                 my = (wy >= 0) ? CANVAS_HEIGHT : -CANVAS_HEIGHT;
