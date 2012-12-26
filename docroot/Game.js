@@ -135,11 +135,11 @@ GameEngine.onReady(function () {
         type        : 'game',
         constructor : function () {
             this.base(this.run);
+            createSprite();
             ProcessManager.birth(DebugProcess);
             ProcessManager.birth(PlayerProcess);
 //            ProcessManager.birth(ControlsProcess);
             game.playfield = new Starfield();
-            createSprite();
         },
         run         : function () {
 
@@ -154,7 +154,7 @@ GameEngine.onReady(function () {
         },
         run         : function () {
             var playfield = game.playfield;
-            this.debug.innerHTML = player.sprite.bearing + ' ' + playfield.x + ',' + playfield.y + ' ' + playfield.vx + ',' + playfield.vy;
+            this.debug.innerHTML = player.sprite.bearing + ' ' + parseInt(playfield.x*100, 10)/100 + ',' + parseInt(playfield.y*100, 10)/100;
             this.sleep(1, this.run);
         }
     });

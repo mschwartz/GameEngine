@@ -2,22 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ef24433-d9ac-43a0-a4e0-b6bb41af1885" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/GameEngine.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/mschwartz.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/sass_stdlib.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docroot/GameEngine/GameEngine.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/Game.js" afterPath="$PROJECT_DIR$/docroot/Game.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/Input.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/Input.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/List.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/List.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/Processes.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/Processes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/Sprites.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/Sprites.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/Utils.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/Utils.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/index.html" afterPath="$PROJECT_DIR$/docroot/index.html" />
     </list>
     <ignored path="GameEngine.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -112,7 +97,7 @@
           <file leaf-file-name="Game.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/docroot/Game.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="225" column="25" selection-start="7465" selection-end="7465" vertical-scroll-proportion="0.67171717">
+                <state line="138" column="0" selection-start="4479" selection-end="4479" vertical-scroll-proportion="0.2996633">
                   <folding />
                 </state>
               </provider>
@@ -417,7 +402,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docroot/Game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="225" column="25" selection-start="7465" selection-end="7465" vertical-scroll-proportion="0.67171717">
+        <state line="138" column="0" selection-start="4479" selection-end="4479" vertical-scroll-proportion="0.2996633">
           <folding />
         </state>
       </provider>
