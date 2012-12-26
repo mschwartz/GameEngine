@@ -9,16 +9,16 @@
  * Simple doubly linked list implementation.
  */
 
-List = function () {
-    this.next = this;
-    this.prev = this;
-};
-List.prototype.extend({
+List = Base.extend({
+    constructor: function() {
+        this.next = this;
+        this.prev = this;
+    },
     addHead : function (o) {
-        this.append(o, this);
+        return this.append(o, this);
     },
     addTail : function (o) {
-        this.append(o, this.prev);
+        return this.append(o, this.prev);
     },
     remHead : function () {
         return this.next === this ? false : this.remove(this.next);
@@ -31,18 +31,27 @@ List.prototype.extend({
         node.prev = after;
         after.next.prev = node;
         after.next = node;
+        return node;
     },
     remove  : function (node) {
         node.next.prev = node.prev;
         node.prev.next = node.next;
         return node;
     },
-    each    : function (fn) {
-        for (var node = this.next; node !== this; node = node.next) {
+    iterate    : function (fn) {
+        for (var node = this.next; node !== this; ) {
+            var next = node.next;
             fn(node);
+            node = next;
         }
     },
     empty   : function () {
         return this.next === this;
+    },
+    dump: function() {
+        for (var node = this.next; node !== this; node = node.next) {
+            console.log(node.type);
+            console.dir(node);
+        }
     }
 });

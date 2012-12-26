@@ -7,34 +7,46 @@
  * GameEngine (C)2012-2013 Michael Schwartz. All rights reserved.
  */
 
-function Process() {}
-Process.extend({
-    init: function() {
+Process = Base.extend({
+    type: 'free',
+    constructor: function(fn, type) {
         this.fn = fn;
-        this.type = type;
+        this.sleepTimer = 1;
+    },
+    sleep: function(time, fn) {
+        this.sleepTimer = time || 1;
+        if (fn) {
+            this.fn = fn;
+        }
+    },
+    suicide: function() {
+        throw 'SUICIDE';
+    },
+    fn: function() {
+        this.suicide();
     }
 });
 
 ProcessManager = (function() {
     var activeList = new List(),
-        freeList = new List(),
-        current;
+        freeLists = [],
+        current = activeList;
 
     return {
-        emptyFn: function() {},
-        birth: function(fn, type) {
-            var p = freeList.remHead() || new Process();
-            p.init(fn, type);
-            activeList.append(p, current);
-        },
-        suicide: function() {
-            throw 'SUICIDE';
+        birth: function(kind) {
+            var type = kind.prototype.type;
+            if (!freeLists[type]) {
+                return activeList.append(new kind(), current);
+            }
+            var p = freeLists[type].remHead();
+            p.constructor(); // init();
+            return activeList.append(p, current);
         },
 
         // remove all active processes except current and type==='SYSTEM'
         genocide: function() {
             activeList.each(function(p) {
-                if (p === current || p.type === 'system') {
+                if (p === current || p.system) {
                     return;
                 }
                 activeList.remove(p);
@@ -44,25 +56,29 @@ ProcessManager = (function() {
         },
 
         run: function() {
-            activeList.each(function(process) {
-                if (process.type === 'free') {
-                    return;
-                }
+            activeList.iterate(function(process) {
                 current = process;
                 try {
-                    process.run();
+                    process.sleepTimer--;
+                    if (process.sleepTimer <= 0) {
+                        process.fn();
+                    }
                 }
                 catch (e) {
                     if (e === 'SUICIDE') {
-                        activeList.remove(current);
-                        current.type = 'free';
-                        freeList.addTail(current);
+                        var node = current,
+                            type = node.type;
+                        current = current.prev;
+                        activeList.remove(node);
+                        freeLists[type] = freeLists[type] || new List();
+                        freeLists[type].addTail(node);
                     }
                     else {
                         throw e;
                     }
                 }
             });
+            current = activeList;
         }
-    }
+    };
 }());

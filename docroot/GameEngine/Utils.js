@@ -23,23 +23,23 @@ Array.prototype.each = Object.prototype.each = Function.prototype.each = functio
 	}
 };
 
-Object.prototype.extend = Function.prototype.extend = function() {
-    var me = this;
-    arguments.each(function(o) {
-        for (var key in o) {
-            var g = o.__lookupGetter__(key), s = o.__lookupSetter__(key);
-            if (g || s) {
-                if (g) {
-                    me.__defineGetter__(key, g);
-                }
-                if (s) {
-                    me.__defineSetter__(key, s);
-                }
-            }
-            else {
-                me[key] = o[key];
-            }
-        }
-    });
-    return this;
-};
+// Object.prototype.extend = Function.prototype.extend = function() {
+//     var me = this;
+//     arguments.each(function(o) {
+//         for (var key in o) {
+//             var g = o.__lookupGetter__(key), s = o.__lookupSetter__(key);
+//             if (g || s) {
+//                 if (g) {
+//                     me.__defineGetter__(key, g);
+//                 }
+//                 if (s) {
+//                     me.__defineSetter__(key, s);
+//                 }
+//             }
+//             else {
+//                 me[key] = o[key];
+//             }
+//         }
+//     });
+//     return this;
+// };

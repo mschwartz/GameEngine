@@ -1,232 +1,270 @@
-var canvas = document.getElementById('playfield');
-if (!canvas) {
-    throw 'no canvas';
-}
-var ctx = canvas.getContext('2d'),
-    CANVAS_WIDTH = canvas.width,
-    CANVAS_HEIGHT = canvas.height;
+GameEngine.onReady(function () {
+    window.game = new GameEngine('playfield');
 
+    var CANVAS_WIDTH = game.CANVAS_WIDTH,
+        CANVAS_HEIGHT = game.CANVAS_HEIGHT;
 
-//function random(n) {
-//    return Math.floor(Math.random() * (n+1));
-//}
+    var Starfield = Playfield.extend({
+        vx            : 0,
+        vy            : 0,
+        numPlanes     : 3,
+        planes        : [],
+        starsPerPlane : parseInt(CANVAS_WIDTH * CANVAS_HEIGHT / 1000, 10),
+        planeColors   : [ '#ffffff', '#bfbfbf', '#7f7f7f' ],
 
-function Playfield() {
-    this.worldX = 0;
-    this.worldY = 0;
-    this.vx = 0;
-    this.vy = 0;
-    var planes = [],
-        starsPerPlane = parseInt(CANVAS_WIDTH * CANVAS_HEIGHT / 1000, 10),
-        planeColors = [ '#ffffff', '#bfbfbf', '#7f7f7f' ];
+        constructor : function () {
+            this.base();
+            console.log('Starfield constructor');
+            var numPlanes = this.numPlanes,
+                starsPerPlane = this.starsPerPlane;
 
-    for (var p=0; p<3; p++) {
-        var plane = [];
-        for (var s=0; s<starsPerPlane; s++) {
-            plane.push({ x: random(CANVAS_WIDTH), y: random(CANVAS_HEIGHT) });
-        }
-        planes.push(plane);
-    }
-    this.draw = function(ctx) {
-        this.worldX += this.vx;
-        this.worldY += this.vy;
-        for (var p=0; p<3; p++) {
-            ctx.fillStyle = planeColors[p];
-            var plane = planes[p];
-            var wx = this.worldX >> (p+1),
-                mx = (wx >= 0) ? CANVAS_WIDTH : -CANVAS_WIDTH,
-                wy = this.worldY >> p,
-                my = (wy >= 0) ? CANVAS_HEIGHT : -CANVAS_HEIGHT;
+            for (var p = 0; p < numPlanes; p++) {
+                var plane = [];
+                for (var s = 0; s < starsPerPlane; s++) {
+                    plane.push({ x : random(CANVAS_WIDTH), y : random(CANVAS_HEIGHT) });
+                }
+                this.planes.push(plane);
+            }
+        },
+        draw        : function (ctx) {
+            var numPlanes = this.numPlanes,
+                starsPerPlane = this.starsPerPlane,
+                planeColors = this.planeColors,
+                ctx = game.ctx;
 
-            // console.dir(wx + ' ' + wy);
-            for (var s=0; s<starsPerPlane; s++) {
-                var star = plane[s];
-                var x = (star.x - wx) % CANVAS_WIDTH;
-                if (x < 0) { x += CANVAS_WIDTH; }
-                var y = (star.y - wy) % CANVAS_HEIGHT;
-                if (y < 0) { y += CANVAS_HEIGHT; }
+            this.x += this.vx;
+            this.y += this.vy;
 
-                ctx.fillRect(x, y, 1,1);
-                // ctx.fillRect(Math.abs((star.x - wx) % CANVAS_WIDTH), Math.abs((star.y - wy) % CANVAS_HEIGHT), 1,1);
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+            for (var p = 0; p < numPlanes; p++) {
+                ctx.fillStyle = planeColors[p];
+                var plane = this.planes[p];
+                var wx = this.x >> (p + 1),
+                    mx = (wx >= 0) ? CANVAS_WIDTH : -CANVAS_WIDTH,
+                    wy = this.y >> p,
+                    my = (wy >= 0) ? CANVAS_HEIGHT : -CANVAS_HEIGHT;
+
+                for (var s = 0; s < starsPerPlane; s++) {
+                    var star = plane[s];
+                    var x = (star.x - wx) % CANVAS_WIDTH;
+                    if (x < 0) {
+                        x += CANVAS_WIDTH;
+                    }
+                    var y = (star.y - wy) % CANVAS_HEIGHT;
+                    if (y < 0) {
+                        y += CANVAS_HEIGHT;
+                    }
+
+                    ctx.fillRect(x, y, 1, 1);
+                }
             }
         }
-    };
-}
+    });
 
-//SpriteManager = {
-//    sprites: [],
-//    add: function(s) {
-//        this.sprites.push(s);
-//    },
-//    run: function(ctx) {
-//        for (var i=0, len=this.sprites.length; i<len; i++) {
-//            var s = this.sprites[i];
-//            s.animate();
-//            s.move();
-//            s.beforeDraw();
-//            s.draw(ctx);
-//            s.afterDraw();
-//        }
-//    }
-//
-//};
-//
-//function Sprite() {
-//    this.x = 0;
-//    this.y = 0;
-//    this.vx = 0;
-//    this.vy = 0;
-//    this.image = null;
-//    this.animStep = 0;
-//    this.animRate = 1;
-//    this.animTimer = 1;
-//    this.animation = null;
-//    this.beforeDraw = function() {};
-//    this.afterDraw = function() {};
-//    SpriteManager.add(this);
-//}
-//Sprite.prototype.move = function() {
-//    this.x += this.vx;
-//    this.y += this.vy;
-//};
-//Sprite.prototype.animate = function() {
-//    if (this.animation) {
-//        this.animTimer--;
-//        if (this.animTimer <= 0) {
-//            this.animStep++;
-//            this.animStep %= this.animStepMax;
-//            this.animTimer = this.animRate;
-//        }
-//        this.image = this.animation[this.animStep];
-//    }
-//};
-//Sprite.prototype.draw = function(ctx) {
-//    ctx.drawImage(this.image, this.x, this.y);
-//};
-//Sprite.prototype.setVelocity = function(vx, vy) {
-//    if (vx !== undefined) {
-//        this.vx = vx;
-//    }
-//    if (vy !== undefined) {
-//        this.vy = vy;
-//    }
-//};
-//Sprite.prototype.startAnimation = function(animation, rate) {
-//    this.animTimer = rate !== undefined ? rate : 1;
-//    console.log(' animTimer = ' + this.animTimer);
-//    this.animation = animation;
-//    this.animStep = 0;
-//    this.animStepMax = animation.length - 1;
-//};
-
-(function() {
-
-    var imagesToLoad = 0;
-    function imageLoaded() {
-        imagesToLoad--;
-    }
-    var earthAnimation = [];
-    for (var i=1; i<=30; i++) {
-        var img = new Image();
-        earthAnimation.push(img);
-        imagesToLoad++;
-        img.onload = imageLoaded;
-        img.src = 'img/earth/frame-'+i+'.gif';
-    }
-
-    // var yellowBall = null;
-
-    // var yellowBall = {
-    //     x: 0,
-    //     y: 0,
-    //     vx: 4,
-    //     vy: 4.5,
-    //     step: 0,
-    //     maxStep: 30
-    // };
-
-    // Thanks to Paul Irish
-    // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-    window.requestAnimFrame = (function() {
-        return  window.requestAnimationFrame       ||
-                window.webkitRequestAnimationFrame ||
-                window.mozRequestAnimationFrame    ||
-                window.oRequestAnimationFrame      ||
-                window.msRequestAnimationFrame     ||
-                function( callback ) {
-                    window.setTimeout(callback, 1000 / 60);
-                };
-        })();
-
+    var spriteNumber = 0;
 
     function createSprite() {
-        function beforeDraw() {
-            if (this.x > CANVAS_WIDTH-64) {
-                this.x = CANVAS_WIDTH-64;
-                this.vx = -this.vx;
-            }
-            else if (this.x < 0) {
-                this.x = 0;
-                this.vx = -this.vx;
-            }
-            if (this.y > CANVAS_HEIGHT-64) {
-                this.y = CANVAS_HEIGHT-64;
-                this.vy = -this.vy;
-            }
-            else if (this.y < 0) {
-                this.y = 0;
-                this.vy = -this.vy;
-            }
-        }
-        var sprite = SpriteManager.allocSprite();
-        sprite.x = 0;
-        sprite.y = 0;
-        sprite.setVelocity(4, 4.5);
+//        function beforeDraw() {
+//            if (this.x > CANVAS_WIDTH - 64) {
+//                this.x = CANVAS_WIDTH - 64;
+//                this.vx = -this.vx;
+//            }
+//            else if (this.x < 0) {
+//                this.x = 0;
+//                this.vx = -this.vx;
+//            }
+//            if (this.y > CANVAS_HEIGHT - 64) {
+//                this.y = CANVAS_HEIGHT - 64;
+//                this.vy = -this.vy;
+//            }
+//            else if (this.y < 0) {
+//                this.y = 0;
+//                this.vy = -this.vy;
+//            }
+//        }
+
+        var sprite = SpriteManager.allocSprite(AnimatedSprite);
+        sprite.spriteNumber = ++spriteNumber;
+        sprite.x = 100;
+        sprite.y = 100;
+//        sprite.setVelocity(4, 4.5);
         sprite.startAnimation(earthAnimation);
-        sprite.beforeDraw = beforeDraw;
+//        sprite.beforeDraw = beforeDraw;
         SpriteManager.addSprite(sprite);
     }
 
-    var playfield = new Playfield();
+//    var playfield = new Starfield();
 
-    var handle = setInterval(function() {
-        if (imagesToLoad <= 0) {
-            clearInterval(handle);
+    var earthAnimation = [],
+        shipContactSheet;
+    var LoaderProcess = Process.extend({
+        type        : 'loader',
+        constructor : function () {
+            console.log('LoaderProcess constructor');
+            var me = this;
+            me.base(this.run);
+            me.imagesToLoad = 0;
+
+            function imageLoaded() {
+                me.imagesToLoad--;
+            }
+            function loadImage(url) {
+                me.imagesToLoad++;
+                var img = new Image();
+                img.onload = imageLoaded;
+                img.src = url;
+                return img;
+            }
+            for (var i = 1; i <= 30; i++) {
+                earthAnimation.push(loadImage('img/earth/frame-' + i + '.gif'));
+            }
+            shipContactSheet = loadImage('img/ship360_32.png');
+        },
+        run         : function () {
+            if (this.imagesToLoad <= 0) {
+                ProcessManager.birth(GameProcess);
+                this.suicide();
+            }
+        }
+    });
+    ProcessManager.birth(LoaderProcess);
+
+    var GameProcess = Process.extend({
+        type        : 'game',
+        constructor : function () {
+            this.base(this.run);
+            ProcessManager.birth(DebugProcess);
+            ProcessManager.birth(PlayerProcess);
+//            ProcessManager.birth(ControlsProcess);
+            game.playfield = new Starfield();
             createSprite();
-            animLoop();
+        },
+        run         : function () {
+
         }
-    }, 1);
+    });
 
-    // var img = new Image();
-    var debug = document.getElementById('debug');
-    console.dir(debug);
-    function animLoop() {
-        requestAnimFrame(animLoop);
-        ctx.fillStyle = 'black';
-        ctx.fillRect(0,0, CANVAS_WIDTH,CANVAS_HEIGHT);
-        playfield.draw(ctx);
-        SpriteManager.run(ctx);
-        debug.innerHTML = playfield.worldX + ',' + playfield.worldY + ' ' + playfield.vx + ',' + playfield.vy;
-    }
+    var DebugProcess = Process.extend({
+        type        : 'debug',
+        constructor : function () {
+            this.base(this.run);
+            this.debug = document.getElementById('debug');
+        },
+        run         : function () {
+            var playfield = game.playfield;
+            this.debug.innerHTML = player.sprite.bearing + ' ' + playfield.x + ',' + playfield.y + ' ' + playfield.vx + ',' + playfield.vy;
+            this.sleep(1, this.run);
+        }
+    });
 
-    document.onkeydown = function(e) {
-        console.log(e.keyCode);
-        switch (e.keyCode) {
-            case 32:
+    var PlayerSprite = Sprite.extend({
+        type: 'player',
+        constructor: function() {
+            this.base();
+            this.bearing = 0;
+            this.velocity = 0;
+            this.image = shipContactSheet;
+            this.x = game.CANVAS_WIDTH/2;
+            this.y = game.CANVAS_HEIGHT/2;
+        },
+        draw: function(ctx, worldX, worldY) {
+//            var bearing = this.bearing * Math.PI / 180;
+            var x = this.x - 16 - worldX,
+                y = this.y - 16 - worldY;
+
+            var ang = 90 - this.bearing,
+                angle = parseInt((ang < 0 ? ang + 360 : ang) / 5, 10),
+                row = parseInt(angle / 6, 10),
+                col = parseInt(angle % 6, 10);
+
+            ctx.drawImage(this.image, col*32,row*32, 32,32, this.x - 16 - worldX, this.y - 16 - worldY, 32, 32);
+        },
+        afterDraw: function() {
+            game.playfield.x = this.x - 16 - game.CANVAS_WIDTH/2;
+            game.playfield.y = this.y - 16 - game.CANVAS_HEIGHT/2;
+        }
+    });
+
+    var player;
+
+    var PlayerProcess = Process.extend({
+        type: 'player',
+        constructor: function() {
+            player = this;
+            this.base(this.run);
+            this.sprite = SpriteManager.allocSprite(PlayerSprite);
+            SpriteManager.addSprite(this.sprite);
+        },
+        run: function() {
+            var sprite = this.sprite,
+                keyPressed = Input.keyPressed,
+                keyDown = Input.keyDown,
+                playfield = game.playfield;
+
+            if (keyPressed(32)) {
+//                createSprite();
+            }
+            else if (keyPressed(38)) {
+                sprite.velocity++;
+            }
+            else if (keyPressed(40)) {
+                sprite.velocity--;
+            }
+            else if (keyDown(39)) {
+                player.sprite.bearing--;
+                if (player.sprite.bearing < 0) {
+                    player.sprite.bearing += 360;
+                }
+            }
+            else if (keyDown(37)) {
+                player.sprite.bearing++;
+                player.sprite.bearing %= 360;
+            }
+            sprite.vx = Math.cos(sprite.bearing * Math.PI/180) * sprite.velocity;
+            sprite.vy = -Math.sin(sprite.bearing * Math.PI/180) * sprite.velocity;
+            playfield.x = sprite.x - 16 - game.CANVAS_WIDTH/2;
+            playfield.y = sprite.y - 16 - game.CANVAS_HEIGHT/2;
+
+        }
+    });
+
+    var ControlsProcess = Process.extend({
+        type        : 'controls',
+        constructor : function () {
+            this.base(this.run);
+            console.log('controls constructor');
+        },
+        run         : function () {
+            var keyPressed = Input.keyPressed,
+                keyDown = Input.keyDown,
+                playfield = game.playfield;
+
+            if (keyPressed(32)) {
                 createSprite();
-                break;
-            case 38:
+            }
+            else if (keyPressed(38)) {
+                console.log('up');
                 playfield.vy -= 1;
-                break;
-            case 40:
+            }
+            else if (keyPressed(40)) {
                 playfield.vy += 1;
-                break;
-            case 37:
-                playfield.vx -= 1;
-                break;
-            case 39:
-                playfield.vx += 1;
-                break;
+            }
+            else if (keyDown(39)) {
+                player.sprite.bearing--;
+                if (player.sprite.bearing < 0) {
+                    player.sprite.bearing += 360;
+                }
+//                player.sprite.bearing %= 360;
+//                playfield.vx -= 1;
+            }
+            else if (keyDown(37)) {
+                player.sprite.bearing++;
+                player.sprite.bearing %= 360;
+//                playfield.vx += 1;
+            }
         }
-    };
-}());
+    });
+
+});
