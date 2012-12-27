@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1ef24433-d9ac-43a0-a4e0-b6bb41af1885" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/Game.js" afterPath="$PROJECT_DIR$/docroot/Game.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/Input.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/Input.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/Sprites.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/Sprites.js" />
     </list>
     <ignored path="GameEngine.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,7 +45,7 @@
           <file leaf-file-name="Base.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/docroot/GameEngine/Base.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="17" column="30" selection-start="418" selection-end="418" vertical-scroll-proportion="-8.5">
+                <state line="17" column="30" selection-start="418" selection-end="418" vertical-scroll-proportion="1.0">
                   <folding>
                     <element signature="n#!!doc" expanded="true" />
                   </folding>
@@ -55,10 +53,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="GameEngine.js" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="GameEngine.js" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/docroot/GameEngine/GameEngine.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="27" column="53" selection-start="657" selection-end="737" vertical-scroll-proportion="0.0">
+                <state line="27" column="53" selection-start="657" selection-end="737" vertical-scroll-proportion="0.1097973">
                   <folding />
                 </state>
               </provider>
@@ -84,7 +82,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ship360_32.png" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="ship360_32.png" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/docroot/img/ship360_32.png">
               <provider selected="true" editor-type-id="images">
                 <state />
@@ -127,7 +125,7 @@
           <file leaf-file-name="Game.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/docroot/Game.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="175" column="14" selection-start="5600" selection-end="5600" vertical-scroll-proportion="-0.05050505">
+                <state line="205" column="12" selection-start="6530" selection-end="6530" vertical-scroll-proportion="0.45286196">
                   <folding />
                 </state>
               </provider>
@@ -173,8 +171,8 @@
         <option value="$PROJECT_DIR$/docroot/GameEngine/Processes.js" />
         <option value="$PROJECT_DIR$/docroot/index.html" />
         <option value="$PROJECT_DIR$/docroot/GameEngine/Sprites.js" />
-        <option value="$PROJECT_DIR$/docroot/Game.js" />
         <option value="$PROJECT_DIR$/docroot/GameEngine/Input.js" />
+        <option value="$PROJECT_DIR$/docroot/Game.js" />
       </list>
     </option>
   </component>
@@ -412,24 +410,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docroot/GameEngine/Base.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="30" selection-start="418" selection-end="418" vertical-scroll-proportion="-8.5">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docroot/GameEngine/GameEngine.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="24" selection-start="1228" selection-end="1228" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#167#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docroot/GameEngine/Playfield.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="0" selection-start="373" selection-end="373" vertical-scroll-proportion="0.0">
@@ -479,9 +459,27 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/docroot/GameEngine/Base.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="30" selection-start="418" selection-end="418" vertical-scroll-proportion="1.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docroot/GameEngine/GameEngine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="24" selection-start="1228" selection-end="1228" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#167#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/docroot/Game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="175" column="14" selection-start="5600" selection-end="5600" vertical-scroll-proportion="-0.05050505">
+        <state line="205" column="12" selection-start="6530" selection-end="6530" vertical-scroll-proportion="0.45286196">
           <folding />
         </state>
       </provider>

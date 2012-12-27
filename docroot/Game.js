@@ -203,7 +203,7 @@ GameEngine.onReady(function () {
             else if (keyPressed(40)) {
                 sprite.velocity--;
             }
-            else if (keyDown(39)) {
+            if (keyDown(39)) {
                 sprite.bearing--;
                 if (sprite.bearing < 0) {
                     sprite.bearing += 360;
