@@ -15,13 +15,17 @@ Input = (function() {
     return {
         init: function() {
             document.onkeydown = function(e) {
-                bKeys[e.keyCode] = 1;
-                cKeys[e.keyCode] = 1;
-                dKeys[e.keyCode] = 1;
+                var code = e.keyCode;
+                if (!cKeys[code]) { // only on initial key down event
+                    dKeys[code] = 1;
+                }
+                bKeys[code] = 1;
+                cKeys[code] = 1;
             };
             document.onkeyup = function(e) {
-                bKeys[e.keyCode] = 0;
-                cKeys[e.keyCode] = 0;
+                var code = e.keyCode;
+                bKeys[code] = 0;
+                cKeys[code] = 0;
             };
         },
         keyDown: function(key) {

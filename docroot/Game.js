@@ -5,8 +5,6 @@ GameEngine.onReady(function () {
         CANVAS_HEIGHT = game.CANVAS_HEIGHT;
 
     var Starfield = Playfield.extend({
-        vx            : 0,
-        vy            : 0,
         numPlanes     : 3,
         planes        : [],
         starsPerPlane : parseInt(CANVAS_WIDTH * CANVAS_HEIGHT / 1000, 10),
@@ -31,9 +29,6 @@ GameEngine.onReady(function () {
                 starsPerPlane = this.starsPerPlane,
                 planeColors = this.planeColors;
 
-            this.x += this.vx;
-            this.y += this.vy;
-
             ctx.fillStyle = 'black';
             ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -41,7 +36,7 @@ GameEngine.onReady(function () {
                 ctx.fillStyle = planeColors[p];
                 var plane = this.planes[p];
                 var wx = this.x >> (p + 1),
-                    wy = this.y >> p;
+                    wy = this.y >> (p + 1);
 
                 for (var s = 0; s < starsPerPlane; s++) {
                     var star = plane[s];
@@ -161,7 +156,8 @@ GameEngine.onReady(function () {
             this.clock.innerHTML = this.seconds + ' ' + new Date().getSeconds();
         }
 
-    })
+    });
+
     var PlayerSprite = Sprite.extend({
         type: 'player',
         constructor: function() {
@@ -182,10 +178,6 @@ GameEngine.onReady(function () {
                 col = parseInt(angle % 6, 10);
 
             ctx.drawImage(this.image, col*32,row*32, 32,32, x, y, 32, 32);
-        },
-        afterDraw: function() {
-            game.playfield.x = this.x - 16 - game.CANVAS_WIDTH/2;
-            game.playfield.y = this.y - 16 - game.CANVAS_HEIGHT/2;
         }
     });
 
@@ -223,8 +215,8 @@ GameEngine.onReady(function () {
             }
             sprite.vx = Math.cos(sprite.bearing * Math.PI/180) * sprite.velocity;
             sprite.vy = -Math.sin(sprite.bearing * Math.PI/180) * sprite.velocity;
-            playfield.x = sprite.x - 16 - game.CANVAS_WIDTH/2;
-            playfield.y = sprite.y - 16 - game.CANVAS_HEIGHT/2;
+            playfield.x = (sprite.x + sprite.vx) - 16 - game.CANVAS_WIDTH/2;
+            playfield.y = (sprite.y + sprite.vy) - 16 - game.CANVAS_HEIGHT/2;
 
         }
     });

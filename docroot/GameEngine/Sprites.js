@@ -71,7 +71,7 @@ Sprite = Base.extend({
         if (y > vh || (y+image.height) < 0) {
             return;
         }
-        ctx.drawImage(image, this.x-worldX, this.y-worldY);
+        ctx.drawImage(image, x, y);
     },
     setVelocity    : function (vx, vy) {
         if (vx !== undefined) {
@@ -86,14 +86,11 @@ Sprite = Base.extend({
 AnimatedSprite = Sprite.extend({
     type: 'animated',
     constructor: function() {
-        console.log('AnimatedSprite constructor');
         this.base();
         this.animStep = 0;
         this.animRate = 1;
         this.animTimer = 1;
         this.animation = null;
-        this.beforeDraw = emptyFn;
-        this.afterDraw = emptyFn;
     },
     animate: function() {
         if (this.animation) {
@@ -107,10 +104,11 @@ AnimatedSprite = Sprite.extend({
         }
     },
     startAnimation : function (animation, rate) {
-        this.animTimer = rate !== undefined ? rate : 1;
-        console.log(' animTimer = ' + this.animTimer);
+        this.animRate = rate !== undefined ? rate : 1;
+        this.animTimer = this.animRate;
         this.animation = animation;
         this.animStep = 0;
         this.animStepMax = animation.length - 1;
+        this.image = animation[0];
     }
 });

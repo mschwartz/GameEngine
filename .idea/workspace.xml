@@ -3,13 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1ef24433-d9ac-43a0-a4e0-b6bb41af1885" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/Game.js" afterPath="$PROJECT_DIR$/docroot/Game.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/Base.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/Base.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/GameEngine.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/GameEngine.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/List.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/List.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/Processes.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/Processes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/Input.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/Input.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/Sprites.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/Sprites.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/GameEngine/Utils.js" afterPath="$PROJECT_DIR$/docroot/GameEngine/Utils.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docroot/index.html" afterPath="$PROJECT_DIR$/docroot/index.html" />
     </list>
     <ignored path="GameEngine.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,7 +29,7 @@
           <file leaf-file-name="Input.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/docroot/GameEngine/Input.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="16" selection-start="97" selection-end="163" vertical-scroll-proportion="0.0">
+                <state line="26" column="16" selection-start="787" selection-end="787" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -80,16 +75,16 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Sprites.js" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="Sprites.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/docroot/GameEngine/Sprites.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="71" column="19" selection-start="1888" selection-end="1888" vertical-scroll-proportion="0.7027027">
+                <state line="112" column="0" selection-start="2992" selection-end="2992" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ship360_32.png" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="ship360_32.png" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/docroot/img/ship360_32.png">
               <provider selected="true" editor-type-id="images">
                 <state />
@@ -129,10 +124,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Game.js" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="Game.js" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/docroot/Game.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="156" column="35" selection-start="5025" selection-end="5025" vertical-scroll-proportion="0.43771043">
+                <state line="175" column="14" selection-start="5600" selection-end="5600" vertical-scroll-proportion="-0.05050505">
                   <folding />
                 </state>
               </provider>
@@ -171,7 +166,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/docroot/GameEngine/Input.js" />
         <option value="$PROJECT_DIR$/docroot/GameEngine/Utils.js" />
         <option value="$PROJECT_DIR$/docroot/GameEngine/GameEngine.js" />
         <option value="$PROJECT_DIR$/docroot/GameEngine/Base.js" />
@@ -180,6 +174,7 @@
         <option value="$PROJECT_DIR$/docroot/index.html" />
         <option value="$PROJECT_DIR$/docroot/GameEngine/Sprites.js" />
         <option value="$PROJECT_DIR$/docroot/Game.js" />
+        <option value="$PROJECT_DIR$/docroot/GameEngine/Input.js" />
       </list>
     </option>
   </component>
@@ -280,6 +275,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="img" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="earth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GameEngine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GameEngine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="docroot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="GameEngine" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -312,6 +329,7 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -321,7 +339,6 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -388,21 +405,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docroot/img/ship360_32.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docroot/GameEngine/Utils.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="0" selection-start="281" selection-end="281" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docroot/GameEngine/Input.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="16" selection-start="97" selection-end="163" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -418,8 +423,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docroot/GameEngine/GameEngine.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="53" selection-start="657" selection-end="737" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="40" column="24" selection-start="1228" selection-end="1228" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#167#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -453,16 +460,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docroot/Game.js">
+    <entry file="file://$PROJECT_DIR$/docroot/GameEngine/Sprites.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="35" selection-start="5025" selection-end="5025" vertical-scroll-proportion="0.43771043">
+        <state line="112" column="0" selection-start="2992" selection-end="2992" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docroot/GameEngine/Sprites.js">
+    <entry file="file://$PROJECT_DIR$/docroot/GameEngine/Input.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="19" selection-start="1888" selection-end="1888" vertical-scroll-proportion="0.7027027">
+        <state line="26" column="16" selection-start="787" selection-end="787" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docroot/img/ship360_32.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docroot/Game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="175" column="14" selection-start="5600" selection-end="5600" vertical-scroll-proportion="-0.05050505">
           <folding />
         </state>
       </provider>
