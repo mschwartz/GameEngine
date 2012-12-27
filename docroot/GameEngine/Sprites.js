@@ -55,9 +55,9 @@ Sprite = Base.extend({
         this.y += this.vy;
     },
     animate        : function () {},
-    beforeDraw: function() {},
     draw           : function (ctx, worldX, worldY) {
-        if (!this.image) {
+        var image = this.image;
+        if (!image) {
             return;
         }
         var x = this.x - worldX,
@@ -65,17 +65,14 @@ Sprite = Base.extend({
             vw = game.CANVAS_WIDTH,
             vh = game.CANVAS_HEIGHT;
 
-        if (x > vw || (x+this.image.width) < 0) {
+        if (x > vw || (x+image.width) < 0) {
             return;
         }
-        if (y > vh || (y+this.image.height) < 0) {
+        if (y > vh || (y+image.height) < 0) {
             return;
         }
-        this.beforeDraw();
-        ctx.drawImage(this.image, this.x-worldX, this.y-worldY);
-        this.afterDraw();
+        ctx.drawImage(image, this.x-worldX, this.y-worldY);
     },
-    afterDraw: function() {},
     setVelocity    : function (vx, vy) {
         if (vx !== undefined) {
             this.vx = vx;

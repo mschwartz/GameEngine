@@ -1,29 +1,29 @@
 /*
-    Base.js, version 1.1a
-    Copyright 2006-2010, Dean Edwards
-    License: http://www.opensource.org/licenses/mit-license.php
-*/
+ Base.js, version 1.1a
+ Copyright 2006-2010, Dean Edwards
+ License: http://www.opensource.org/licenses/mit-license.php
+ */
 
-var Base = function() {
+var Base = function () {
     // dummy
 };
 
-Base.extend = function(_instance, _static) { // subclass
+Base.extend = function (_instance, _static) { // subclass
     var extend = Base.prototype.extend;
-    
+
     // build the prototype
     Base._prototyping = true;
     var proto = new this();
     extend.call(proto, _instance);
-  proto.base = function() {
-    // call this method from any other method to invoke that method's ancestor
-  };
+    proto.base = function () {
+        // call this method from any other method to invoke that method's ancestor
+    };
     delete Base._prototyping;
-    
+
     // create the wrapper for the constructor function
     //var constructor = proto.constructor.valueOf(); //-dean
     var constructor = proto.constructor;
-    var klass = proto.constructor = function() {
+    var klass = proto.constructor = function () {
         if (!Base._prototyping) {
             if (this._constructing || this.constructor == klass) { // instantiation
                 this._constructing = true;
@@ -34,7 +34,7 @@ Base.extend = function(_instance, _static) { // subclass
             }
         }
     };
-    
+
     // build the class interface
     klass.ancestor = this;
     klass.extend = this.extend;
@@ -42,7 +42,7 @@ Base.extend = function(_instance, _static) { // subclass
     klass.implement = this.implement;
     klass.prototype = proto;
     klass.toString = this.toString;
-    klass.valueOf = function(type) {
+    klass.valueOf = function (type) {
         //return (type == "object") ? klass : constructor; //-dean
         return (type == "object") ? klass : constructor.valueOf();
     };
@@ -53,7 +53,7 @@ Base.extend = function(_instance, _static) { // subclass
 };
 
 Base.prototype = {
-    extend: function(source, value) {
+    extend : function (source, value) {
         if (arguments.length > 1) { // extending with a name/value pair
             var ancestor = this[source];
             if (ancestor && (typeof value == "function") && // overriding a method?
@@ -63,7 +63,7 @@ Base.prototype = {
                 // get the underlying method
                 var method = value.valueOf();
                 // override
-                value = function() {
+                value = function () {
                     var previous = this.base || Base.prototype.base;
                     this.base = ancestor;
                     var returnValue = method.apply(this, arguments);
@@ -71,7 +71,7 @@ Base.prototype = {
                     return returnValue;
                 };
                 // point to the underlying method
-                value.valueOf = function(type) {
+                value.valueOf = function (type) {
                     return (type == "object") ? value : method;
                 };
                 value.toString = Base.toString;
@@ -83,7 +83,7 @@ Base.prototype = {
             if (!Base._prototyping && typeof this != "function") {
                 extend = this.extend || extend;
             }
-            var proto = {toSource: null};
+            var proto = {toSource : null};
             // do the "toString" and other methods manually
             var hidden = ["constructor", "toString", "valueOf"];
             // if we are prototyping then include the constructor
@@ -105,22 +105,22 @@ Base.prototype = {
 
 // initialise
 Base = Base.extend({
-    constructor: function() {
+    constructor : function () {
         this.extend(arguments[0]);
     }
 }, {
-    ancestor: Object,
-    version: "1.1",
-    
-    forEach: function(object, block, context) {
+    ancestor : Object,
+    version  : "1.1",
+
+    forEach : function (object, block, context) {
         for (var key in object) {
             if (this.prototype[key] === undefined) {
                 block.call(context, object[key], key, object);
             }
         }
     },
-        
-    implement: function() {
+
+    implement : function () {
         for (var i = 0; i < arguments.length; i++) {
             if (typeof arguments[i] == "function") {
                 // if it's a function, call it
@@ -132,8 +132,8 @@ Base = Base.extend({
         }
         return this;
     },
-    
-    toString: function() {
+
+    toString : function () {
         return String(this.valueOf());
     }
 });

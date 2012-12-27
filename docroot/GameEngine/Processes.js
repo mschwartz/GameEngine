@@ -18,12 +18,10 @@ Process = Base.extend({
         if (fn) {
             this.fn = fn;
         }
+        throw 'SLEEP';
     },
     suicide: function() {
         throw 'SUICIDE';
-    },
-    fn: function() {
-        this.suicide();
     }
 });
 
@@ -49,6 +47,9 @@ ProcessManager = (function() {
                 if (p === current || p.system) {
                     return;
                 }
+                if (p.destroy) {
+                    p.destroy();
+                }
                 activeList.remove(p);
                 p.type = 'free';
                 freeList.add(p);
@@ -69,11 +70,14 @@ ProcessManager = (function() {
                         var node = current,
                             type = node.type;
                         current = current.prev;
+                        if (node.destroy) {
+                            node.destroy();
+                        }
                         activeList.remove(node);
                         freeLists[type] = freeLists[type] || new List();
                         freeLists[type].addTail(node);
                     }
-                    else {
+                    else if (e !== 'SLEEP') {
                         throw e;
                     }
                 }

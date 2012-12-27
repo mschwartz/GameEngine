@@ -29,8 +29,7 @@ GameEngine.onReady(function () {
         draw        : function (ctx) {
             var numPlanes = this.numPlanes,
                 starsPerPlane = this.starsPerPlane,
-                planeColors = this.planeColors,
-                ctx = game.ctx;
+                planeColors = this.planeColors;
 
             this.x += this.vx;
             this.y += this.vy;
@@ -42,9 +41,7 @@ GameEngine.onReady(function () {
                 ctx.fillStyle = planeColors[p];
                 var plane = this.planes[p];
                 var wx = this.x >> (p + 1),
-                    mx = (wx >= 0) ? CANVAS_WIDTH : -CANVAS_WIDTH,
-                    wy = this.y >> p,
-                    my = (wy >= 0) ? CANVAS_HEIGHT : -CANVAS_HEIGHT;
+                    wy = this.y >> p;
 
                 for (var s = 0; s < starsPerPlane; s++) {
                     var star = plane[s];
@@ -63,42 +60,18 @@ GameEngine.onReady(function () {
         }
     });
 
-    var spriteNumber = 0;
 
     function createSprite() {
-//        function beforeDraw() {
-//            if (this.x > CANVAS_WIDTH - 64) {
-//                this.x = CANVAS_WIDTH - 64;
-//                this.vx = -this.vx;
-//            }
-//            else if (this.x < 0) {
-//                this.x = 0;
-//                this.vx = -this.vx;
-//            }
-//            if (this.y > CANVAS_HEIGHT - 64) {
-//                this.y = CANVAS_HEIGHT - 64;
-//                this.vy = -this.vy;
-//            }
-//            else if (this.y < 0) {
-//                this.y = 0;
-//                this.vy = -this.vy;
-//            }
-//        }
-
         var sprite = SpriteManager.allocSprite(AnimatedSprite);
-        sprite.spriteNumber = ++spriteNumber;
         sprite.x = 100;
         sprite.y = 100;
-//        sprite.setVelocity(4, 4.5);
         sprite.startAnimation(earthAnimation);
-//        sprite.beforeDraw = beforeDraw;
         SpriteManager.addSprite(sprite);
     }
 
-//    var playfield = new Starfield();
-
     var earthAnimation = [],
         shipContactSheet;
+
     var LoaderProcess = Process.extend({
         type        : 'loader',
         constructor : function () {
@@ -137,8 +110,8 @@ GameEngine.onReady(function () {
             this.base(this.run);
             createSprite();
             ProcessManager.birth(DebugProcess);
+            ProcessManager.birth(ClockProcess);
             ProcessManager.birth(PlayerProcess);
-//            ProcessManager.birth(ControlsProcess);
             game.playfield = new Starfield();
         },
         run         : function () {
@@ -159,6 +132,36 @@ GameEngine.onReady(function () {
         }
     });
 
+    var ClockProcess = Process.extend({
+        type: 'clock',
+        constructor: function() {
+            this.base(this.start);
+            this.seconds = 0;
+            this.jiffies = 0;
+            this.wait = new Date().getSeconds();
+            this.clock = document.getElementById('clock');
+        },
+        start: function() {
+            var seconds = new Date().getSeconds();
+            if (this.wait === seconds) {
+                return;
+            }
+            this.seconds = seconds;
+            this.sleep(1, this.run);
+        },
+        run: function() {
+            this.jiffies++;
+            if (this.jiffies >= 60) {
+                this.jiffies = 0;
+                this.seconds++;
+                if (this.seconds >= 60) {
+                    this.seconds = 0;
+                }
+            }
+            this.clock.innerHTML = this.seconds + ' ' + new Date().getSeconds();
+        }
+
+    })
     var PlayerSprite = Sprite.extend({
         type: 'player',
         constructor: function() {
@@ -170,7 +173,6 @@ GameEngine.onReady(function () {
             this.y = game.CANVAS_HEIGHT/2;
         },
         draw: function(ctx, worldX, worldY) {
-//            var bearing = this.bearing * Math.PI / 180;
             var x = this.x - 16 - worldX,
                 y = this.y - 16 - worldY;
 
@@ -179,7 +181,7 @@ GameEngine.onReady(function () {
                 row = parseInt(angle / 6, 10),
                 col = parseInt(angle % 6, 10);
 
-            ctx.drawImage(this.image, col*32,row*32, 32,32, this.x - 16 - worldX, this.y - 16 - worldY, 32, 32);
+            ctx.drawImage(this.image, col*32,row*32, 32,32, x, y, 32, 32);
         },
         afterDraw: function() {
             game.playfield.x = this.x - 16 - game.CANVAS_WIDTH/2;
@@ -203,67 +205,27 @@ GameEngine.onReady(function () {
                 keyDown = Input.keyDown,
                 playfield = game.playfield;
 
-            if (keyPressed(32)) {
-//                createSprite();
-            }
-            else if (keyPressed(38)) {
+            if (keyPressed(38)) {
                 sprite.velocity++;
             }
             else if (keyPressed(40)) {
                 sprite.velocity--;
             }
             else if (keyDown(39)) {
-                player.sprite.bearing--;
-                if (player.sprite.bearing < 0) {
-                    player.sprite.bearing += 360;
+                sprite.bearing--;
+                if (sprite.bearing < 0) {
+                    sprite.bearing += 360;
                 }
             }
             else if (keyDown(37)) {
-                player.sprite.bearing++;
-                player.sprite.bearing %= 360;
+                sprite.bearing++;
+                sprite.bearing %= 360;
             }
             sprite.vx = Math.cos(sprite.bearing * Math.PI/180) * sprite.velocity;
             sprite.vy = -Math.sin(sprite.bearing * Math.PI/180) * sprite.velocity;
             playfield.x = sprite.x - 16 - game.CANVAS_WIDTH/2;
             playfield.y = sprite.y - 16 - game.CANVAS_HEIGHT/2;
 
-        }
-    });
-
-    var ControlsProcess = Process.extend({
-        type        : 'controls',
-        constructor : function () {
-            this.base(this.run);
-            console.log('controls constructor');
-        },
-        run         : function () {
-            var keyPressed = Input.keyPressed,
-                keyDown = Input.keyDown,
-                playfield = game.playfield;
-
-            if (keyPressed(32)) {
-                createSprite();
-            }
-            else if (keyPressed(38)) {
-                console.log('up');
-                playfield.vy -= 1;
-            }
-            else if (keyPressed(40)) {
-                playfield.vy += 1;
-            }
-            else if (keyDown(39)) {
-                player.sprite.bearing--;
-                if (player.sprite.bearing < 0) {
-                    player.sprite.bearing += 360;
-                }
-//                player.sprite.bearing %= 360;
-//                playfield.vx -= 1;
-            }
-            else if (keyDown(37)) {
-                player.sprite.bearing++;
-                player.sprite.bearing %= 360;
-//                playfield.vx += 1;
-            }
         }
     });
 

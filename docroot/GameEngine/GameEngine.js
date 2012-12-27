@@ -3,7 +3,8 @@
  * User: mschwartz
  * Date: 12/26/12
  * Time: 11:09 AM
- * To change this template use File | Settings | File Templates.
+ *
+ * GameEngine (C)2012-2013 Michael Schwartz. All rights reserved.
  */
 
 var GameEngine = Base.extend({

@@ -14,11 +14,11 @@ List = Base.extend({
         this.next = this;
         this.prev = this;
     },
-    addHead : function (o) {
-        return this.append(o, this);
+    addHead : function (node) {
+        return this.append(node, this);
     },
-    addTail : function (o) {
-        return this.append(o, this.prev);
+    addTail : function (node) {
+        return this.append(node, this.prev);
     },
     remHead : function () {
         return this.next === this ? false : this.remove(this.next);
