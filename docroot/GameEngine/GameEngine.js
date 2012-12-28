@@ -61,6 +61,7 @@ GameEngine.readyFuncs = [];
 GameEngine.onReady = function(fn) {
     GameEngine.readyFuncs.push(fn);
 };
+
 window.addEventListener('load', function() {
     var readyFuncs = GameEngine.readyFuncs;
     for (var i= 0, len = readyFuncs.length; i<len; i++) {
