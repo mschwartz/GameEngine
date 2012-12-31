@@ -15,6 +15,7 @@ Input = (function() {
     return {
         init: function() {
             document.onkeydown = function(e) {
+                e.preventDefault();
                 var code = e.keyCode;
                 if (!cKeys[code]) { // only on initial key down event
                     dKeys[code] = 1;
@@ -23,6 +24,7 @@ Input = (function() {
                 cKeys[code] = 1;
             };
             document.onkeyup = function(e) {
+                e.preventDefault();
                 var code = e.keyCode;
                 bKeys[code] = 0;
                 cKeys[code] = 0;

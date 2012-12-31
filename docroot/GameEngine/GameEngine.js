@@ -7,6 +7,20 @@
  * GameEngine (C)2012-2013 Michael Schwartz. All rights reserved.
  */
 
+function hideAddressBar() {
+//    if(!window.location.hash) {
+//        if(document.height < window.outerHeight) {
+//            console.log('setting height');
+//            document.body.style.height = (window.outerHeight + 50) + 'px';
+//        }
+//
+        setTimeout( function() {
+            window.scrollTo(0, 1);
+//        }, 50 );
+        }, 0 );
+//    }
+}
+
 var GameEngine = Base.extend({
     // takes element ID of the DOM canvas element
     constructor : function (canvasId) {
@@ -23,6 +37,29 @@ var GameEngine = Base.extend({
         me.CANVAS_HEIGHT = canvas.height;
 
         me.playfield = null;
+
+        canvas.addEventListener('click', function() {
+            console.log('click canvas');
+            me.resize();
+        });
+
+        window.addEventListener('resize', function(e) {
+            hideAddressBar();
+            console.log('resize to ' + window.innerWidth + 'x' + window.innerHeight);
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            me.CANVAS_WIDTH = canvas.width;
+            me.CANVAS_HEIGHT = canvas.height;
+            if (me.playfield && me.playfield.resize) {
+                me.playfield.resize();
+            }
+        });
+
+        window.addEventListener('orientationchange', function() {
+            console.log('orientationchange');
+            hideAddressBar();
+            me.resize();
+        });
 
         // Thanks to Paul Irish
         // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -53,7 +90,14 @@ var GameEngine = Base.extend({
             SpriteManager.run(me.ctx, x, y);
         }
         gameLoop();
-
+    },
+    resize: function() {
+        setTimeout(function() {
+            console.log('resize!');
+            var evt = document.createEvent('UIEvents');
+            evt.initUIEvent('resize', true, false,window,0);
+            window.dispatchEvent(evt);
+        }, 10);
     }
 });
 
@@ -63,8 +107,13 @@ GameEngine.onReady = function(fn) {
 };
 
 window.addEventListener('load', function() {
+    document.body.style.height = screen.height + 'px';
+//    if (!window.pageYOffset) {
+//        hideAddressBar();
+//    }
     var readyFuncs = GameEngine.readyFuncs;
     for (var i= 0, len = readyFuncs.length; i<len; i++) {
         readyFuncs[i]();
     }
 });
+

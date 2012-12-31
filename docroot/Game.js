@@ -1,21 +1,26 @@
 GameEngine.onReady(function () {
     window.game = new GameEngine('playfield');
 
-    var CANVAS_WIDTH = game.CANVAS_WIDTH,
-        CANVAS_HEIGHT = game.CANVAS_HEIGHT;
-
     var Starfield = Playfield.extend({
         numPlanes     : 3,
         planes        : [],
-        starsPerPlane : parseInt(CANVAS_WIDTH * CANVAS_HEIGHT / 1000, 10),
+//        planeColors   : [],
         planeColors   : [ '#ffffff', '#bfbfbf', '#7f7f7f' ],
 
         constructor : function () {
             this.base();
             console.log('Starfield constructor');
+        },
+        resize: function() {
             var numPlanes = this.numPlanes,
-                starsPerPlane = this.starsPerPlane;
+                planeColors = this.planeColors,
+                CANVAS_WIDTH = game.CANVAS_WIDTH,
+                CANVAS_HEIGHT = game.CANVAS_HEIGHT;
 
+            var starsPerPlane = this.starsPerPlane = parseInt(CANVAS_WIDTH * CANVAS_HEIGHT / 2000, 10);
+
+            this.planes = [];
+            console.log('resize ' + CANVAS_WIDTH + 'x' + CANVAS_HEIGHT);
             for (var p = 0; p < numPlanes; p++) {
                 var plane = [];
                 for (var s = 0; s < starsPerPlane; s++) {
@@ -27,12 +32,17 @@ GameEngine.onReady(function () {
         draw        : function (ctx) {
             var numPlanes = this.numPlanes,
                 starsPerPlane = this.starsPerPlane,
-                planeColors = this.planeColors;
+                planeColors = this.planeColors,
+                CANVAS_WIDTH = game.CANVAS_WIDTH,
+                CANVAS_HEIGHT = game.CANVAS_HEIGHT;
 
             ctx.fillStyle = 'black';
+//            ctx.canvas.width = ctx.canvas.width;
+//            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
             for (var p = 0; p < numPlanes; p++) {
+                var pixel = planeColors[p];
                 ctx.fillStyle = planeColors[p];
                 var plane = this.planes[p];
                 var wx = this.x >> (p + 1),
@@ -49,7 +59,8 @@ GameEngine.onReady(function () {
                         y += CANVAS_HEIGHT;
                     }
 
-                    ctx.fillRect(x, y, 1, 1);
+//                    ctx.putImageData(pixel, x, y);
+                    ctx.fillRect(x|0, y|0, 1, 1);
                 }
             }
         }
@@ -108,6 +119,7 @@ GameEngine.onReady(function () {
             ProcessManager.birth(ClockProcess);
             ProcessManager.birth(PlayerProcess);
             game.playfield = new Starfield();
+            game.resize();
         },
         run         : function () {
 
@@ -118,11 +130,14 @@ GameEngine.onReady(function () {
         type        : 'debug',
         constructor : function () {
             this.base(this.run);
-            this.debug = document.getElementById('debug');
         },
         run         : function () {
-            var playfield = game.playfield;
-            this.debug.innerHTML = player.sprite.bearing + ' ' + parseInt(playfield.x*100, 10)/100 + ',' + parseInt(playfield.y*100, 10)/100;
+            var ctx = game.ctx;
+
+            ctx.font = 'bold 12pt Courier New';
+            ctx.fillStyle = 'white';
+            ctx.fillText('Bearing   : ' + player.sprite.bearing + ' degrees', 10, 20);
+            ctx.fillText('World X,Y : ' + player.sprite.x.toFixed(2) + ',' + player.sprite.y.toFixed(2), 10, 34);
             this.sleep(1, this.run);
         }
     });
@@ -134,7 +149,6 @@ GameEngine.onReady(function () {
             this.seconds = 0;
             this.jiffies = 0;
             this.wait = new Date().getSeconds();
-            this.clock = document.getElementById('clock');
         },
         start: function() {
             var seconds = new Date().getSeconds();
@@ -153,7 +167,10 @@ GameEngine.onReady(function () {
                     this.seconds = 0;
                 }
             }
-            this.clock.innerHTML = this.seconds + ' ' + new Date().getSeconds();
+            ctx = game.ctx;
+            ctx.font = 'bold 12pt Courier New';
+            ctx.fillStyle = 'white';
+            ctx.fillText(this.seconds + ' ' + new Date().getSeconds() + ' ' + game.CANVAS_WIDTH + 'x' + game.CANVAS_HEIGHT, 10, 46);
         }
 
     });
