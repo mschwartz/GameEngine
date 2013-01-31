@@ -1,12 +1,26 @@
+<!doctype html>
 <html style="height: 100%">
 <head>
     <title>Game Engine</title>
     <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; user-scalable=0; width=device-width;">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="stylesheet" type="text/css" href="game.css">
 </head>
-<body style="margin: 0; padding: 0; background-color: black; height: 100%">
-    <canvas id="playfield" width="640" height="640"></canvas>
+<body style="margin: 0; padding: 0; height: 100%">
+    <div id="container">
+        <h1 style="text-align: center; margin: 0; padding: 0">Web Trek</h1>
+        <div style="float: left; width: 640px; height: 640px; border: 15px inset grey">
+            <canvas id="playfield" width="640" height="640" style="margin: auto"></canvas>
+        </div>
+        <div style="margin-left: 680px;">
+            <h1 style="padding: 0; margin: 0; margin-bottom: 4px">Keys</h1>
+            <li>0-9: Set warp factor</li>
+            <li>cursor left: rotate ship left</li>
+            <li>cursor right: rotate ship right</li>
+            <li>spacebar: Fire</li>
+        </div>
+    </div>
 </body>
 <script type="text/javascript" src="GameEngine/Base.js"></script>
 <script type="text/javascript" src="GameEngine/Utils.js"></script>
@@ -16,5 +30,6 @@
 <script type="text/javascript" src="GameEngine/Playfield.js"></script>
 <script type="text/javascript" src="GameEngine/Processes.js"></script>
 <script type="text/javascript" src="GameEngine/Sprites.js"></script>
+<script type="text/javascript" src="animations.js"></script>
 <script type="text/javascript" src="Game.js"></script>
 </html>

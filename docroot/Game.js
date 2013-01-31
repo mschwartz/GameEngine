@@ -71,12 +71,9 @@ GameEngine.onReady(function () {
         var sprite = SpriteManager.allocSprite(AnimatedSprite);
         sprite.x = 100;
         sprite.y = 100;
-        sprite.startAnimation(earthAnimation);
+        sprite.startAnimation(GameEngine.animations.earthAnimation);
         SpriteManager.addSprite(sprite);
     }
-
-    var earthAnimation = [],
-        shipContactSheet;
 
     var LoaderProcess = Process.extend({
         type        : 'loader',
@@ -96,10 +93,13 @@ GameEngine.onReady(function () {
                 img.src = url;
                 return img;
             }
-            for (var i = 1; i <= 30; i++) {
-                earthAnimation.push(loadImage('img/earth/frame-' + i + '.gif'));
-            }
-            shipContactSheet = loadImage('img/ship360_32.png');
+            GameEngine.images.each(function(image, key) {
+                GameEngine.images[key] = loadImage(image);
+            });
+//            for (var i = 1; i <= 30; i++) {
+//                earthAnimation.push(loadImage('img/earth/frame-' + i + '.gif'));
+//            }
+//            shipContactSheet = loadImage('img/ship360_32.png');
         },
         run         : function () {
             if (this.imagesToLoad <= 0) {
@@ -175,13 +175,64 @@ GameEngine.onReady(function () {
 
     });
 
+    var BulletSprite = Sprite.extend({
+        type: 'bullet',
+        constructor: function() {
+            this.base();
+            var bearing = this.bearing = player.sprite.bearing;
+            var velocity = this.velocity = player.sprite.velocity + 4;
+            this.x = player.sprite.x + 16 * Math.cos(bearing * Math.PI/180);
+            this.y = player.sprite.y - 16 * Math.sin(bearing * Math.PI/180);
+            this.vx = Math.cos(bearing * Math.PI/180) * velocity;
+            this.vy = -Math.sin(bearing * Math.PI/180) * velocity;
+        },
+        draw: function(ctx, worldX, worldY) {
+            var x = this.x - worldX - 1;
+            var y = this.y - worldY - 1;
+            ctx.fillStyle = '#ff0000';
+            ctx.fillRect(x,y, 3, 3);
+        }
+    });
+
+    var BulletProcess = Process.extend({
+        type: 'bullet',
+        constructor: function() {
+            this.base(this.run);
+            this.sprite = SpriteManager.allocSprite(BulletSprite);
+            SpriteManager.addSprite(this.sprite);
+            this.timeout = 30;
+        },
+        run: function() {
+            // die if bullet is clipped
+            var s = this.sprite,
+                sx = s.x,
+                sy = s.y,
+                sw = 3,
+                sh = 3,
+                p = game.playfield,
+                px = p.x,
+                py = p.y,
+                pw = game.CANVAS_WIDTH,
+                ph = game.CANVAS_HEIGHT;
+
+            if (sx > (px + pw) || (sx + 3) < px || sy > (py + ph) || (sy + 3) < py) {
+
+//            }
+//            this.timeout--;
+//            if (this.timeout < 0) {
+                SpriteManager.freeSprite(this.sprite);
+                this.suicide();
+            }
+        }
+    });
+
     var PlayerSprite = Sprite.extend({
         type: 'player',
         constructor: function() {
             this.base();
             this.bearing = 0;
             this.velocity = 0;
-            this.image = shipContactSheet;
+            this.image = GameEngine.images.SHIP_PLAYER;
             this.x = game.CANVAS_WIDTH/2;
             this.y = game.CANVAS_HEIGHT/2;
         },
@@ -219,6 +270,9 @@ GameEngine.onReady(function () {
             }
             else if (keyPressed(40)) {
                 sprite.velocity--;
+            }
+            if (keyPressed(32)) { // spacebar == fire!
+                ProcessManager.birth(BulletProcess);
             }
             if (keyDown(39)) {
                 sprite.bearing--;

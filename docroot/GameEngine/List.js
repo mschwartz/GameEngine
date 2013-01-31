@@ -11,6 +11,7 @@
 
 List = Base.extend({
     constructor: function() {
+        this.type = 'keystone';
         this.next = this;
         this.prev = this;
     },

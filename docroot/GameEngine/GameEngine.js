@@ -8,20 +8,13 @@
  */
 
 function hideAddressBar() {
-//    if(!window.location.hash) {
-//        if(document.height < window.outerHeight) {
-//            console.log('setting height');
-//            document.body.style.height = (window.outerHeight + 50) + 'px';
-//        }
-//
-        setTimeout( function() {
-            window.scrollTo(0, 1);
-//        }, 50 );
-        }, 0 );
-//    }
+    setTimeout( function() {
+        window.scrollTo(0, 1);
+    }, 0 );
 }
 
 var GameEngine = Base.extend({
+
     // takes element ID of the DOM canvas element
     constructor : function (canvasId) {
         var me = this,
@@ -40,14 +33,15 @@ var GameEngine = Base.extend({
 
         canvas.addEventListener('click', function() {
             console.log('click canvas');
-            me.resize();
+//            me.resize();
         });
 
         window.addEventListener('resize', function(e) {
             hideAddressBar();
             console.log('resize to ' + window.innerWidth + 'x' + window.innerHeight);
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            // uncomment the next two lines to have the canvas fill the browser
+//            canvas.width = window.innerWidth;
+//            canvas.height = window.innerHeight;
             me.CANVAS_WIDTH = canvas.width;
             me.CANVAS_HEIGHT = canvas.height;
             if (me.playfield && me.playfield.resize) {
@@ -105,6 +99,8 @@ GameEngine.readyFuncs = [];
 GameEngine.onReady = function(fn) {
     GameEngine.readyFuncs.push(fn);
 };
+GameEngine.images = {};
+GameEngine.animations = {};
 
 window.addEventListener('load', function() {
     document.body.style.height = screen.height + 'px';

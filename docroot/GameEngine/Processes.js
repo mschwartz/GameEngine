@@ -37,6 +37,9 @@ ProcessManager = (function() {
                 return activeList.append(new kind(), current);
             }
             var p = freeLists[type].remHead();
+            if (!p) {
+                return activeList.append(new kind(), current);
+            }
             p.constructor(); // init();
             return activeList.append(p, current);
         },
@@ -63,6 +66,7 @@ ProcessManager = (function() {
                     process.sleepTimer--;
                     if (process.sleepTimer <= 0) {
                         process.fn();
+                        process.sleepTimer = 1;
                     }
                 }
                 catch (e) {
@@ -83,6 +87,11 @@ ProcessManager = (function() {
                 }
             });
             current = activeList;
+        },
+        dump: function() {
+            activeList.iterate(function(process) {
+                console.dir(process);
+            });
         }
     };
 }());
