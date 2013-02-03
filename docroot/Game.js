@@ -96,13 +96,9 @@ GameEngine.onReady(function () {
             GameEngine.images.each(function(image, key) {
                 GameEngine.images[key] = loadImage(image);
             });
-//            for (var i = 1; i <= 30; i++) {
-//                earthAnimation.push(loadImage('img/earth/frame-' + i + '.gif'));
-//            }
-//            shipContactSheet = loadImage('img/ship360_32.png');
         },
         run         : function () {
-            if (this.imagesToLoad <= 0) {
+            if (this.imagesToLoad <= 0) {   // all loaded, start the game!
                 ProcessManager.birth(GameProcess);
                 this.suicide();
             }

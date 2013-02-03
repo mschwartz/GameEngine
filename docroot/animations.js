@@ -14,7 +14,6 @@ GameEngine.onReady(function() {
         ALOOP = AnimatedSprite.prototype.ALOOP,
         AEND = AnimatedSprite.prototype.AEND;
 
-    console.log('here');
     ({
         SHIP_PLAYER: 'img/ship360_32.png'
     }).each(function(image, key) {
