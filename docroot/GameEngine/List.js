@@ -49,6 +49,11 @@ List = Base.extend({
     empty   : function () {
         return this.next === this;
     },
+
+    first: function() {
+        return this.next === this ? null : this.next;
+    },
+
     dump: function() {
         for (var node = this.next; node !== this; node = node.next) {
             console.log(node.type);

@@ -1,6 +1,13 @@
 GameEngine.onReady(function () {
     window.game = new GameEngine('playfield');
 
+    var TYPE_DEFAULT = Sprite.prototype.TYPE_DEFAULT,
+        TYPE_PLAYER = Sprite.prototype.TYPE_PLAYER,
+        TYPE_PBULLET = Sprite.prototype.TYPE_PBULLET,
+        TYPE_ENEMY = Sprite.prototype.TYPE_ENEMY,
+        TYPE_EBULLET = Sprite.prototype.TYPE_EBULLET,
+        TYPE_PLANET = (1<<Sprite.prototype.TYPE_USER_BIT);
+
     var Starfield = Playfield.extend({
         numPlanes     : 3,
         planes        : [],
@@ -67,14 +74,6 @@ GameEngine.onReady(function () {
     });
 
 
-    function createSprite() {
-        var sprite = SpriteManager.allocSprite(AnimatedSprite);
-        sprite.x = 100;
-        sprite.y = 100;
-        sprite.startAnimation(GameEngine.animations.earthAnimation);
-        SpriteManager.addSprite(sprite);
-    }
-
     var LoaderProcess = Process.extend({
         type        : 'loader',
         constructor : function () {
@@ -110,9 +109,10 @@ GameEngine.onReady(function () {
         type        : 'game',
         constructor : function () {
             this.base(this.run);
-            createSprite();
+//            createSprite();
             ProcessManager.birth(DebugProcess);
             ProcessManager.birth(ClockProcess);
+            ProcessManager.birth(PlanetProcess);
             ProcessManager.birth(PlayerProcess);
             game.playfield = new Starfield();
             game.resize();
@@ -171,16 +171,53 @@ GameEngine.onReady(function () {
 
     });
 
+    var PlanetSprite = AnimatedSprite.extend({
+        type: 'planet',
+
+        constructor: function() {
+            this.base(TYPE_PLANET);
+            this.anchor = this.ANCHOR_CENTER;
+            this.w = this.h = 64;
+            this.flags |= this.FLAG_CHECK;
+            this.cmask |= TYPE_PLAYER | TYPE_PBULLET;
+        }
+    });
+
+    var PlanetProcess = Process.extend({
+        type: 'planet',
+        constructor: function() {
+            this.base(this.run);
+            var sprite = this.sprite = SpriteManager.allocSprite(PlanetSprite);
+            sprite.x = 100;
+            sprite.y = 100;
+            sprite.startAnimation(GameEngine.animations.earthAnimation);
+            SpriteManager.addSprite(sprite);
+        },
+        run: function() {
+            this.sprite.ctype = 0;
+        }
+    });
+
+//    function createSprite() {
+//        var sprite = SpriteManager.allocSprite(PlanetSprite);
+//        sprite.x = 100;
+//        sprite.y = 100;
+//        sprite.startAnimation(GameEngine.animations.earthAnimation);
+//        SpriteManager.addSprite(sprite);
+//    }
+
     var BulletSprite = Sprite.extend({
         type: 'bullet',
         constructor: function() {
-            this.base();
+            this.base(TYPE_PBULLET);
             var bearing = this.bearing = player.sprite.bearing;
             var velocity = this.velocity = player.sprite.velocity + 4;
             this.x = player.sprite.x + 16 * Math.cos(bearing * Math.PI/180);
             this.y = player.sprite.y - 16 * Math.sin(bearing * Math.PI/180);
             this.vx = Math.cos(bearing * Math.PI/180) * velocity;
             this.vy = -Math.sin(bearing * Math.PI/180) * velocity;
+            this.flags |= this.FLAG_MOVE | this.FLAG_CHECK;
+            this.cmask = TYPE_PLANET;
         },
         draw: function(ctx, worldX, worldY) {
             var x = this.x - worldX - 1;
@@ -211,11 +248,11 @@ GameEngine.onReady(function () {
                 pw = game.CANVAS_WIDTH,
                 ph = game.CANVAS_HEIGHT;
 
+            if (s.ctype) {
+                SpriteManager.freeSprite(this.sprite);
+                this.suicide();
+            }
             if (sx > (px + pw) || (sx + 3) < px || sy > (py + ph) || (sy + 3) < py) {
-
-//            }
-//            this.timeout--;
-//            if (this.timeout < 0) {
                 SpriteManager.freeSprite(this.sprite);
                 this.suicide();
             }
@@ -225,16 +262,20 @@ GameEngine.onReady(function () {
     var PlayerSprite = Sprite.extend({
         type: 'player',
         constructor: function() {
-            this.base();
+            this.base(TYPE_PLAYER);
             this.bearing = 0;
             this.velocity = 0;
             this.image = GameEngine.images.SHIP_PLAYER;
             this.x = game.CANVAS_WIDTH/2;
             this.y = game.CANVAS_HEIGHT/2;
+            this.w = this.h = 32;
+            this.anchor = this.ANCHOR_CENTER;
+            this.flags |= this.FLAG_MOVE | this.FLAG_CHECK;
+            this.cmask |= TYPE_PLANET;
         },
         draw: function(ctx, worldX, worldY) {
-            var x = this.x - 16 - worldX,
-                y = this.y - 16 - worldY;
+            var x = this.rect.x1 - worldX,
+                y = this.rect.y1 - worldY;
 
             var ang = 90 - this.bearing,
                 angle = parseInt((ang < 0 ? ang + 360 : ang) / 5, 10),
@@ -242,6 +283,11 @@ GameEngine.onReady(function () {
                 col = parseInt(angle % 6, 10);
 
             ctx.drawImage(this.image, col*32,row*32, 32,32, x, y, 32, 32);
+//            ctx.strokeStyle = '#f00';
+//            ctx.strokeRect(x,y, this.w, this.h);
+        },
+        collide: function(other) {
+            console.log('player collide with ' + other.__proto__.type);
         }
     });
 
